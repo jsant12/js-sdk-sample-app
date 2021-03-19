@@ -13,14 +13,20 @@ function hashFromTuples(tuples) {
   }, {});
 }
 
-async function sendRequest({ endpoint, method, qs }) {
-  const response = await httpClient[method]({
-    base: `/${endpoint}`,
-    qs: hashFromTuples(qs),
-    params: {},
-  });
+async function sendRequest({endpoint, method, qs, version}) {
+  try {
+    const response = await httpClient[method]({
+      base: `${endpoint}`,
+      qs: hashFromTuples(qs),
+      params: {},
+      version: version,
+    });
 
-  return response.body;
+    return response.body;
+  } catch (err) {
+    //ToDo: refactor to something else, not alert
+    alert(err.message)
+  }
 }
 
 const HomeContainer = styled('div')({
